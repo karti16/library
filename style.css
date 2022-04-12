@@ -1,0 +1,235 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* ####################################
+#######################################
+#################################### */
+
+h1 {
+  text-align: center;
+  background-color: #9fc088;
+  font-size: 5vw;
+}
+#newBook {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #cc704b;
+}
+#newBook:hover {
+  background-color: #c2643fb0;
+  color: rgb(255, 255, 255);
+}
+form {
+  border: 2px solid green;
+  width: max-content;
+  margin: auto;
+  padding: 30px;
+  background-color: #2e8bc0;
+  color: white;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-around;
+  gap: 10px;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
+
+label {
+  text-transform: capitalize;
+}
+input {
+  padding: 5px 15px;
+  border-radius: 7px;
+  border-style: none;
+}
+input::placeholder {
+  text-transform: capitalize;
+  font-size: 15px;
+}
+
+.blue-btn {
+  /* addBoot Button */
+  background-color: rgba(228, 222, 222, 0.925);
+  border: none;
+  font-size: 20px;
+  border-radius: 5px;
+  margin: auto;
+  width: 100%;
+  padding: 10px 10px;
+}
+#cancelAddBook {
+  background: none;
+  border: none;
+  font-size: 17px;
+  color: white;
+}
+#overlay {
+  position: fixed; /* Sit on top of the page content */
+  display: none; /* Hidden by default */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+}
+#updateBook {
+  display: none;
+}
+
+.lib-container {
+  margin: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 5px;
+}
+.book {
+  padding: 20px;
+  border: 2px solid black;
+  background-color: rgb(124, 210, 236);
+  font-size: 20px;
+}
+
+span {
+  font-size: 30px;
+}
+
+.book button {
+  font-size: 30px;
+  width: 100%;
+  background-color: rgb(61, 118, 204);
+}

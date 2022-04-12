@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="//cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css"
+    />
+    <script src="script.js" defer></script>
+    <title>Library</title>
+  </head>
+  <body>
+    <div class="main-container">
+      <h1>Library</h1>
+      <button id="newBook" onclick="overlayOn()">+ New Book</button>
+      <div class="lib-container"></div>
+    </div>
+
+    <div id="overlay">
+      <form id="bookForms">
+        <input
+          placeholder="title"
+          type="text"
+          name="title"
+          id="title"
+          required
+        />
+        <input
+          placeholder="author"
+          type="text"
+          name="author"
+          id="author"
+          required
+        />
+        <input
+          placeholder="pages"
+          type="number"
+          name="pages"
+          id="pages"
+          required
+        />
+        <div>
+          Have you read it?
+          <input type="checkbox" name="isRead" value="yes" id="isRead" />
+        </div>
+        <button type="submit" id="addBook" class="blue-btn">Add Book</button>
+        <button type="button" id="updateBook" class="blue-btn">Update</button>
+        <button type="button" id="cancelAddBook" onclick="overlayOff()">
+          Cancel
+        </button>
+      </form>
+    </div>
+  </body>
+</html>
