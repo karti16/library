@@ -1,4 +1,4 @@
-let myLibrary = [];
+let my;
 
 const libContainer = document.querySelector(".lib-container");
 const bookForms = document.getElementById("bookForms");
