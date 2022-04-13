@@ -132,15 +132,19 @@ table {
 #######################################
 #################################### */
 
+:root {
+  --yellow: rgb(205, 166, 51);
+  --black: rgba(95, 100, 102, 0.37);
+}
+
 body {
-  font-family: "Montserrat", sans-serif;
-  font-weight: 100;
+  font-family: "Open Sans", sans-serif;
   background-color: #3a3b3b;
 }
 h1 {
-  text-align: center;
-  font-size: 5vw;
-  color: white;
+  font-size: 7vh;
+  color: rgb(205, 205, 205);
+  margin: 45px;
 }
 #newBook {
   background: none;
@@ -160,41 +164,41 @@ h1 {
 }
 #newBook:active {
   color: rgb(68, 57, 40);
-  background-color: rgb(205, 166, 51);
 }
 form {
   width: max-content;
   margin: auto;
   padding: 30px;
-  background-color: rgb(105, 105, 105);
+  background-color: var(--black);
   border-radius: 20px;
-  color: white;
+  color: rgb(205, 205, 205);
   display: flex;
   flex-flow: column;
   justify-content: space-around;
-  gap: 10px;
+  gap: 15px;
   align-items: center;
   position: absolute;
   top: 50%;
   left: 50%;
-
+  font-size: 20px;
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
 }
 
 input {
-  padding: 5px 15px;
+  padding: 10px 15px;
   border-radius: 7px;
   border-style: none;
 }
 input::placeholder {
   text-transform: capitalize;
-  font-size: 15px;
+  font-size: 20px;
 }
 
-.blue-btn {
-  /* addBoot Button */
-  background-color: rgba(228, 222, 222, 0.925);
+#addBook,
+#updateBook {
+  /* addBook Button */
+  background-color: var(--yellow);
   border: none;
   font-size: 20px;
   border-radius: 5px;
@@ -202,11 +206,19 @@ input::placeholder {
   width: 100%;
   padding: 10px 10px;
 }
+#addBook:hover,
+#updateBook:hover {
+  cursor: pointer;
+}
 #cancelAddBook {
   background: none;
   border: none;
   font-size: 17px;
   color: white;
+  cursor: pointer;
+}
+#cancelAddBook:hover {
+  color: var(--yellow);
 }
 #overlay {
   position: fixed; /* Sit on top of the page content */
@@ -217,16 +229,16 @@ input::placeholder {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+  background-color: rgba(0, 0, 0, 0.868); /* Black background with opacity */
 }
 #updateBook {
   display: none;
 }
 
 .lib-container {
-  margin: 10px;
+  margin: 20px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
   gap: 35px;
 }
 
@@ -238,7 +250,9 @@ input::placeholder {
   border-radius: 15px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 10px;
+  font-size: 17px;
+  position: relative;
 }
 
 .material-icons {
@@ -246,7 +260,8 @@ input::placeholder {
   background-color: rgb(168, 167, 164);
   background-color: rgb(205, 166, 51);
   padding: 3px;
-  border-radius: 3px;
+
+  border-radius: 10px;
   margin: 10px;
   font-size: 30px;
 }
@@ -261,10 +276,13 @@ input::placeholder {
   text-align: center;
 }
 #toggleRead {
-  border: 1px solid rgb(205, 166, 51);
+  background-color: rgba(105, 105, 105, 0.46);
   border-radius: 10px;
   text-align: center;
   padding: 10px;
+  font-size: 15px;
+  font-weight: bold;
+  margin-top: 10px;
 }
 #toggleRead:hover {
   cursor: pointer;
@@ -279,4 +297,17 @@ input::placeholder {
 #delEditBtn {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+}
+.unread {
+  width: 10px;
+  height: 10px;
+  background-color: var(--yellow);
+  border-radius: 5px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+#readCircle {
+  position: absolute;
 }

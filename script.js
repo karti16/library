@@ -63,11 +63,14 @@ function delBookFromLibrary(e) {
 function toggleRead(e) {
   let book = document.getElementById(getId(e));
   let status = book.querySelector("#toggleRead");
+  let readCircle = book.querySelector("#readCircle");
   if (myLibrary[getId(e)].isRead == "yes") {
     status.innerHTML = "Mark as Read";
+    readCircle.classList.add("unread");
     myLibrary[getId(e)].isRead = "no";
   } else {
     status.innerHTML = "Mark as Unread";
+    readCircle.classList.remove("unread");
     myLibrary[getId(e)].isRead = "yes";
   }
   updateLocalStorage();
@@ -108,16 +111,21 @@ function displayBook() {
   let libContainer = document.querySelector(".lib-container");
   libContainer.innerHTML += `
     <div class="book" id="${bookId}">
+        <div id="readCircle" class="${
+          myLibrary[i].isRead == "yes" ? "" : "unread"
+        }"></div>
         <div>Title : ${myLibrary[bookId].title}</div>
         <div>Author : ${myLibrary[bookId].author}</div>
         <div>Pages : ${myLibrary[bookId].pages}</div>
-        <p id="toggleRead">
-          ${
-            myLibrary[bookId].isRead == "yes"
-              ? "Mark as Unread"
-              : "Mark as Read"
-          }
-        </p>
+        <div>
+          <p id="toggleRead">
+            ${
+              myLibrary[bookId].isRead == "yes"
+                ? "Mark as Unread"
+                : "Mark as Read"
+            }
+          </p>
+        </div>
         <div id="delEditBtn">
           <i id="delBook" class="material-icons">delete</i>
           <i id="editBook" class="material-icons">edit</i>
@@ -137,7 +145,7 @@ function overlayOff() {
 }
 
 function getId(e) {
-  return e.target.parentElement.id;
+  return e.target.parentNode.parentElement.id;
 }
 
 function updateBookGrid() {
@@ -145,12 +153,17 @@ function updateBookGrid() {
   for (let i = 0; i < myLibrary.length; i++) {
     libContainer.innerHTML += `
     <div class="book" id="${i}">
+        <div id="readCircle" class="${
+          myLibrary[i].isRead == "yes" ? "" : "unread"
+        }"></div>
         <div>Title : ${myLibrary[i].title}</div>
         <div>Author : ${myLibrary[i].author}</div>
         <div>Pages : ${myLibrary[i].pages}</div>
-        <p id="toggleRead">
-          ${myLibrary[i].isRead == "yes" ? "Mark as Unread" : "Mark as Read"}
-        </p>
+        <div>
+          <p id="toggleRead">
+           ${myLibrary[i].isRead == "yes" ? "Mark as Unread" : "Mark as Read"}
+          </p>
+        </div>
         <div id="delEditBtn">
           <i id="delBook" class="material-icons">delete</i>
           <i id="editBook" class="material-icons">edit</i>
