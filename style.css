@@ -132,27 +132,42 @@ table {
 #######################################
 #################################### */
 
+body {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 100;
+  background-color: #3a3b3b;
+}
 h1 {
   text-align: center;
-  background-color: #9fc088;
   font-size: 5vw;
+  color: white;
 }
 #newBook {
   background: none;
   border: none;
   font-size: 20px;
-  color: #cc704b;
+  color: rgb(205, 166, 51);
+  width: 200px;
+  height: 50px;
+  box-shadow: inset 0 0 0 0 rgb(205, 166, 51);
+  transition: ease-out 0.2s;
+  outline: none;
 }
+
 #newBook:hover {
-  background-color: #c2643fb0;
-  color: rgb(255, 255, 255);
+  color: rgb(68, 57, 40);
+  box-shadow: inset 200px 0 0 0 rgb(205, 166, 51);
+}
+#newBook:active {
+  color: rgb(68, 57, 40);
+  background-color: rgb(205, 166, 51);
 }
 form {
-  border: 2px solid green;
   width: max-content;
   margin: auto;
   padding: 30px;
-  background-color: #2e8bc0;
+  background-color: rgb(105, 105, 105);
+  border-radius: 20px;
   color: white;
   display: flex;
   flex-flow: column;
@@ -167,9 +182,6 @@ form {
   -ms-transform: translate(-50%, -50%);
 }
 
-label {
-  text-transform: capitalize;
-}
 input {
   padding: 5px 15px;
   border-radius: 7px;
@@ -215,21 +227,56 @@ input::placeholder {
   margin: 10px;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 5px;
+  gap: 35px;
 }
+
 .book {
   padding: 20px;
-  border: 2px solid black;
-  background-color: rgb(124, 210, 236);
+  color: white;
+  background-color: rgba(95, 100, 102, 0.37);
   font-size: 20px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
-span {
+.material-icons {
+  color: rgb(68, 57, 40);
+  background-color: rgb(168, 167, 164);
+  background-color: rgb(205, 166, 51);
+  padding: 3px;
+  border-radius: 3px;
+  margin: 10px;
   font-size: 30px;
 }
-
-.book button {
+.material-icons:hover {
+  background-color: rgb(68, 57, 40);
+  color: rgb(205, 166, 51);
+  cursor: pointer;
+}
+#delBook,
+#editBook {
   font-size: 30px;
-  width: 100%;
-  background-color: rgb(61, 118, 204);
+  text-align: center;
+}
+#toggleRead {
+  border: 1px solid rgb(205, 166, 51);
+  border-radius: 10px;
+  text-align: center;
+  padding: 10px;
+}
+#toggleRead:hover {
+  cursor: pointer;
+
+  color: rgb(205, 166, 51);
+  background-color: rgb(43, 42, 41);
+}
+#toggleRead:active {
+  scale: 99%;
+}
+
+#delEditBtn {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
 }
