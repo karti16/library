@@ -21,44 +21,92 @@
   <body>
     <div class="main-container">
       <h1>Library</h1>
-      <button id="newBook" onclick="overlayOn()">+ New Book</button>
+      <nav>
+        <button id="newbook-btn" class="yellow-btn">+ New Book</button>
+        <button id="signup-btn" class="yellow-btn">Signup</button>
+      </nav>
       <div class="lib-container"></div>
     </div>
 
-    <div id="overlay">
-      <form id="bookForms">
-        <input
-          placeholder="title"
-          type="text"
-          name="title"
-          id="title"
-          required
-        />
-        <input
-          placeholder="author"
-          type="text"
-          name="author"
-          id="author"
-          required
-        />
-        <input
-          placeholder="pages"
-          type="number"
-          name="pages"
-          id="pages"
-          required
-        />
-        <div>
-          Have you read it?
-          <input type="checkbox" name="isRead" value="yes" id="isRead" />
-        </div>
-        <button type="submit" id="addBook" class="blue-btn">Add Book</button>
-        <button type="button" id="updateBook" class="blue-btn">Update</button>
-        <button type="button" id="cancelAddBook" onclick="overlayOff()">
-          Cancel
-        </button>
-      </form>
-    </div>
+    <div id="overlay"></div>
+    <form id="book-form" class="forms">
+      <input placeholder="title" type="text" name="title" id="title" required />
+      <input
+        placeholder="author"
+        type="text"
+        name="author"
+        id="author"
+        required
+      />
+      <input
+        placeholder="pages"
+        type="number"
+        name="pages"
+        id="pages"
+        required
+      />
+      <div id="read-checkbox">
+        <input type="checkbox" name="isRead" value="yes" id="isRead" />
+        Have you read it?
+      </div>
+      <button type="submit" id="addBook" class="form-btn">Add Book</button>
+      <button type="button" id="updateBook" class="form-btn">Update</button>
+      <button type="button" class="cancelbtn">Cancel</button>
+    </form>
+    <form id="signup-form" class="forms">
+      <input
+        placeholder="Email"
+        type="email"
+        name="signup-email"
+        id="signup-email"
+        required
+      />
+      <input
+        placeholder="Password"
+        type="password"
+        name="signup-password"
+        id="signup-password"
+        required
+      />
+      <button type="submit" id="signup-btn" class="form-btn">Sign Up</button>
+      <button type="button" class="cancelbtn">Cancel</button>
+    </form>
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-app.js";
+
+      import {
+        getAuth,
+        createUserWithEmailAndPassword,
+      } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-auth.js";
+
+      import {
+        getFirestore,
+        collection,
+        getDocs,
+      } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-firestore.js";
+
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+
+      // Your web app's Firebase configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyANW6lE6ifrHTDRlpm1Dm1X3huc3c5lxR0",
+        authDomain: "library-5500.firebaseapp.com",
+        projectId: "library-5500",
+        storageBucket: "library-5500.appspot.com",
+        messagingSenderId: "898712433264",
+        appId: "1:898712433264:web:b4368b807f72c5944b7ab5",
+        measurementId: "G-222P1BLNW0",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const db = getFirestore(app);
+    </script>
+    <script src="scripts/auth.js"></script>
   </body>
 </html>
-<!--  -->

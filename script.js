@@ -5,12 +5,57 @@ if (localStorage.key("book") == null) {
 if (localStorage.key("book") == "book") {
   myLibrary = JSON.parse(localStorage.getItem("book"));
 }
-
+//container
 const libContainer = document.querySelector(".lib-container");
-const bookForms = document.getElementById("bookForms");
+
+//newbook form
+const bookForms = document.getElementById("book-form");
+bookForms.onsubmit = addBookToLibrary;
+
+//signup form
+const signupForm = document.getElementById("signup-form");
+signupForm.onsubmit = signup;
+
+//new book button
+const newBookBtn = document.querySelector("#newbook-btn");
+newBookBtn.onclick = function () {
+  updateBookBtn.style.display = "none";
+  addBookBtn.style.display = "block";
+  formDisplay("book-form", "flex");
+  overlayOn();
+};
+
+//signup button
+const signUpBtn = document.querySelector("#signup-btn");
+signUpBtn.onclick = function () {
+  formDisplay("signup-form", "flex");
+  overlayOn();
+};
+
+//update book button
 const updateBookBtn = document.getElementById("updateBook");
+updateBookBtn.onclick = updateBook;
+
+//add book button
 const addBookBtn = document.getElementById("addBook");
+
+//dynamic button
+document.onclick = dynamicButton;
+
+// new book cancel button
+const cancelBtns = document.querySelectorAll(".cancelbtn");
+for (let i = 0; i < cancelBtns.length; i++) {
+  cancelBtns[i].onclick = function () {
+    overlayOff();
+    formDisplay("book-form", "none");
+    formDisplay("signup-form", "none");
+    signupForm.reset();
+    bookForms.reset();
+  };
+}
+
 let currentBookEdit = null;
+updateBookGrid();
 
 function Book(title, author, pages, isRead) {
   this.title = title;
@@ -19,6 +64,7 @@ function Book(title, author, pages, isRead) {
   this.isRead = isRead;
 }
 
+//Add New book to library
 function addBookToLibrary(e) {
   e.preventDefault();
   bookId = myLibrary.length;
@@ -32,10 +78,12 @@ function addBookToLibrary(e) {
   );
   updateLocalStorage();
   displayBook();
+  formDisplay("book-form", "none");
   overlayOff();
   bookForms.reset();
 }
 
+//Event listener for buttons dynamically created inside the book cards
 function dynamicButton(e) {
   if (e.target && e.target.id == "delBook") {
     delBookFromLibrary(e);
@@ -49,9 +97,13 @@ function dynamicButton(e) {
     editBook(e);
   }
 }
+
+//Update local storage
 function updateLocalStorage() {
   localStorage.setItem("book", JSON.stringify(myLibrary));
 }
+
+//delete book from library and update local storage
 function delBookFromLibrary(e) {
   let bookDel = document.getElementById(getId(e));
   bookDel.remove();
@@ -60,6 +112,7 @@ function delBookFromLibrary(e) {
   updateBookGrid();
 }
 
+//Toggle read status
 function toggleRead(e) {
   let book = document.getElementById(getId(e));
   let status = book.querySelector("#toggleRead");
@@ -76,6 +129,7 @@ function toggleRead(e) {
   updateLocalStorage();
 }
 
+//Edit and update Book
 function editBook(e) {
   console.log(getId(e));
   document.querySelector("#title").value = myLibrary[getId(e)].title;
@@ -84,6 +138,7 @@ function editBook(e) {
   document.querySelector("#isRead").checked =
     myLibrary[getId(e)].isRead == "yes" ? true : false;
 
+  formDisplay("book-form", "flex");
   overlayOn();
 
   updateBookBtn.style.display = "block";
@@ -93,6 +148,7 @@ function editBook(e) {
   updateLocalStorage();
 }
 
+//Update Book
 function updateBook(e) {
   myLibrary[currentBookEdit].title = document.getElementById("title").value;
   myLibrary[currentBookEdit].author = document.getElementById("author").value;
@@ -102,17 +158,19 @@ function updateBook(e) {
     : "no";
 
   updateBookGrid();
+  formDisplay("book-form", "none");
   overlayOff();
   updateLocalStorage();
 }
 
+//display book at initial page load
 function displayBook() {
   myLibrary = JSON.parse(localStorage.getItem("book"));
   let libContainer = document.querySelector(".lib-container");
   libContainer.innerHTML += `
     <div class="book" id="${bookId}">
         <div id="readCircle" class="${
-          myLibrary[i].isRead == "yes" ? "" : "unread"
+          myLibrary[bookId].isRead == "yes" ? "" : "unread"
         }"></div>
         <div>Title : ${myLibrary[bookId].title}</div>
         <div>Author : ${myLibrary[bookId].author}</div>
@@ -133,21 +191,22 @@ function displayBook() {
     </div>`;
 }
 
+//Overlay behind the popups
 function overlayOn() {
-  updateBookBtn.style.display = "none";
-  addBookBtn.style.display = "block";
   document.getElementById("overlay").style.display = "block";
 }
 
+//Overlay behind the popups
 function overlayOff() {
   document.getElementById("overlay").style.display = "none";
-  bookForms.reset();
 }
 
+//Get id from event
 function getId(e) {
   return e.target.parentNode.parentElement.id;
 }
 
+//Update book display after adding, deleting, editing the books
 function updateBookGrid() {
   libContainer.innerHTML = "";
   for (let i = 0; i < myLibrary.length; i++) {
@@ -172,8 +231,9 @@ function updateBookGrid() {
   }
 }
 
-updateBookGrid();
+//sign up function
+function signup() {}
 
-document.onclick = dynamicButton;
-bookForms.onsubmit = addBookToLibrary;
-updateBookBtn.onclick = updateBook;
+function formDisplay(form, display) {
+  document.getElementById(form).style.display = display;
+}
