@@ -12,10 +12,6 @@ const libContainer = document.querySelector(".lib-container");
 const bookForms = document.getElementById("book-form");
 bookForms.onsubmit = addBookToLibrary;
 
-//signup form
-const signupForm = document.getElementById("signup-form");
-signupForm.onsubmit = signup;
-
 //new book button
 const newBookBtn = document.querySelector("#newbook-btn");
 newBookBtn.onclick = function () {
@@ -31,6 +27,9 @@ signUpBtn.onclick = function () {
   formDisplay("signup-form", "flex");
   overlayOn();
 };
+
+//signup form
+const signupForm = document.querySelector("#signup-form");
 
 //update book button
 const updateBookBtn = document.getElementById("updateBook");
@@ -232,7 +231,6 @@ function updateBookGrid() {
 }
 
 //sign up function
-function signup() {}
 
 function formDisplay(form, display) {
   document.getElementById(form).style.display = display;

@@ -15,7 +15,10 @@
       href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap"
       rel="stylesheet"
     />
-    <script src="script.js" defer></script>
+    <script defer src="scripts/script.js"></script>
+    <script defer type="module" src="scripts/app.js"></script>
+    <script defer type="module" src="scripts/auth.js"></script>
+    <script defer type="module" src="scripts/db.js"></script>
     <title>Library</title>
   </head>
   <body>
@@ -71,42 +74,5 @@
       <button type="submit" id="signup-btn" class="form-btn">Sign Up</button>
       <button type="button" class="cancelbtn">Cancel</button>
     </form>
-    <script type="module">
-      // Import the functions you need from the SDKs you need
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-app.js";
-
-      import {
-        getAuth,
-        createUserWithEmailAndPassword,
-      } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-auth.js";
-
-      import {
-        getFirestore,
-        collection,
-        getDocs,
-      } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-firestore.js";
-
-      // TODO: Add SDKs for Firebase products that you want to use
-      // https://firebase.google.com/docs/web/setup#available-libraries
-
-      // Your web app's Firebase configuration
-      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-
-      const firebaseConfig = {
-        apiKey: "AIzaSyANW6lE6ifrHTDRlpm1Dm1X3huc3c5lxR0",
-        authDomain: "library-5500.firebaseapp.com",
-        projectId: "library-5500",
-        storageBucket: "library-5500.appspot.com",
-        messagingSenderId: "898712433264",
-        appId: "1:898712433264:web:b4368b807f72c5944b7ab5",
-        measurementId: "G-222P1BLNW0",
-      };
-
-      // Initialize Firebase
-      const app = initializeApp(firebaseConfig);
-      const auth = getAuth(app);
-      const db = getFirestore(app);
-    </script>
-    <script src="scripts/auth.js"></script>
   </body>
 </html>
