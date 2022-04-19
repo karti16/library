@@ -6,7 +6,7 @@ if (localStorage.key("book") == "book") {
   myLibrary = JSON.parse(localStorage.getItem("book"));
 }
 //container
-const libContainer = document.querySelector(".lib-container");
+const localLibContainer = document.querySelector("#local-container");
 
 //newbook form
 const bookForms = document.getElementById("book-form");
@@ -21,14 +21,24 @@ newBookBtn.onclick = function () {
   overlayOn();
 };
 
-//signup button
+//signup form open
 const signUpBtn = document.querySelector("#signup-btn");
 signUpBtn.onclick = function () {
   formDisplay("signup-form", "flex");
   overlayOn();
 };
 
-//signup form
+//Login form open
+const loginbtn = document.querySelector("#login-btn");
+loginbtn.onclick = function () {
+  formDisplay("login-form", "flex");
+  overlayOn();
+};
+
+//login form declare
+const loginForm = document.querySelector("#login-form");
+
+//signup form declare
 const signupForm = document.querySelector("#signup-form");
 
 //update book button
@@ -45,16 +55,23 @@ document.onclick = dynamicButton;
 const cancelBtns = document.querySelectorAll(".cancelbtn");
 for (let i = 0; i < cancelBtns.length; i++) {
   cancelBtns[i].onclick = function () {
-    overlayOff();
     formDisplay("book-form", "none");
     formDisplay("signup-form", "none");
+    formDisplay("login-form", "none");
     signupForm.reset();
     bookForms.reset();
+    loginForm.reset();
+
+    overlayOff();
   };
 }
 
+// buttons to be shown while logged out , logged in
+const loggedOutLinks = document.querySelectorAll(".logged-out");
+const loggedInLinks = document.querySelectorAll(".logged-in");
+const userName = document.querySelector("#user-name");
+
 let currentBookEdit = null;
-updateBookGrid();
 
 function Book(title, author, pages, isRead) {
   this.title = title;
@@ -108,7 +125,7 @@ function delBookFromLibrary(e) {
   bookDel.remove();
   myLibrary.splice(getId(e), 1);
   updateLocalStorage();
-  updateBookGrid();
+  updateBookGrid(myLibrary);
 }
 
 //Toggle read status
@@ -156,7 +173,7 @@ function updateBook(e) {
     ? "yes"
     : "no";
 
-  updateBookGrid();
+  updateBookGrid(myLibrary);
   formDisplay("book-form", "none");
   overlayOff();
   updateLocalStorage();
@@ -165,8 +182,8 @@ function updateBook(e) {
 //display book at initial page load
 function displayBook() {
   myLibrary = JSON.parse(localStorage.getItem("book"));
-  let libContainer = document.querySelector(".lib-container");
-  libContainer.innerHTML += `
+  let localLibContainer = document.querySelector("#local-container");
+  localLibContainer.innerHTML += `
     <div class="book" id="${bookId}">
         <div id="readCircle" class="${
           myLibrary[bookId].isRead == "yes" ? "" : "unread"
@@ -206,20 +223,20 @@ function getId(e) {
 }
 
 //Update book display after adding, deleting, editing the books
-function updateBookGrid() {
-  libContainer.innerHTML = "";
-  for (let i = 0; i < myLibrary.length; i++) {
-    libContainer.innerHTML += `
+function updateBookGrid(library) {
+  localLibContainer.innerHTML = "";
+  for (let i = 0; i < library.length; i++) {
+    localLibContainer.innerHTML += `
     <div class="book" id="${i}">
         <div id="readCircle" class="${
-          myLibrary[i].isRead == "yes" ? "" : "unread"
+          library[i].isRead == "yes" ? "" : "unread"
         }"></div>
-        <div>Title : ${myLibrary[i].title}</div>
-        <div>Author : ${myLibrary[i].author}</div>
-        <div>Pages : ${myLibrary[i].pages}</div>
+        <div>Title : ${library[i].title}</div>
+        <div>Author : ${library[i].author}</div>
+        <div>Pages : ${library[i].pages}</div>
         <div>
           <p id="toggleRead">
-           ${myLibrary[i].isRead == "yes" ? "Mark as Unread" : "Mark as Read"}
+           ${library[i].isRead == "yes" ? "Mark as Unread" : "Mark as Read"}
           </p>
         </div>
         <div id="delEditBtn">
@@ -234,4 +251,15 @@ function updateBookGrid() {
 
 function formDisplay(form, display) {
   document.getElementById(form).style.display = display;
+}
+
+function setupUi(user) {
+  if (user) {
+    loggedInLinks.forEach((item) => (item.style.display = "block"));
+    loggedOutLinks.forEach((item) => (item.style.display = "none"));
+    userName.innerHTML = user.email.split("@", 1).join("");
+  } else {
+    loggedInLinks.forEach((item) => (item.style.display = "none"));
+    loggedOutLinks.forEach((item) => (item.style.display = "block"));
+  }
 }

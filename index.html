@@ -16,9 +16,7 @@
       rel="stylesheet"
     />
     <script defer src="scripts/script.js"></script>
-    <script defer type="module" src="scripts/app.js"></script>
-    <script defer type="module" src="scripts/auth.js"></script>
-    <script defer type="module" src="scripts/db.js"></script>
+    <script defer type="module" src="scripts/firebase.js"></script>
     <title>Library</title>
   </head>
   <body>
@@ -26,13 +24,14 @@
       <h1>Library</h1>
       <nav>
         <button id="newbook-btn" class="yellow-btn">+ New Book</button>
-        <button id="login-btn" class="yellow-btn">Login</button>
-        <button id="signup-btn" class="yellow-btn">Signup</button>
-        <button id="logout-btn" class="yellow-btn">Logout</button>
+        <i id="account-icon" class="material-icons logged-in">account_circle</i>
+        <p id="user-name" class="logged-in">text</p>
+        <button id="login-btn" class="yellow-btn logged-out">Login</button>
+        <button id="signup-btn" class="yellow-btn logged-out">Signup</button>
+        <button id="logout-btn" class="yellow-btn logged-in">Logout</button>
       </nav>
-      <div class="lib-container"></div>
+      <div id="local-container" class="lib-container"></div>
     </div>
-
     <div id="overlay"></div>
     <form id="book-form" class="forms">
       <input placeholder="title" type="text" name="title" id="title" required />
@@ -74,6 +73,24 @@
         required
       />
       <button type="submit" id="signup-btn" class="form-btn">Sign Up</button>
+      <button type="button" class="cancelbtn">Cancel</button>
+    </form>
+    <form id="login-form" class="forms">
+      <input
+        placeholder="Email"
+        type="email"
+        name="login-email"
+        id="login-email"
+        required
+      />
+      <input
+        placeholder="Password"
+        type="password"
+        name="login-password"
+        id="login-password"
+        required
+      />
+      <button type="submit" id="login-btn" class="form-btn">Login</button>
       <button type="button" class="cancelbtn">Cancel</button>
     </form>
   </body>

@@ -135,6 +135,7 @@ table {
 :root {
   --yellow: rgb(205, 166, 51);
   --black: rgba(95, 100, 102, 0.37);
+  --borderRadius: 4px;
 }
 
 body {
@@ -152,6 +153,7 @@ h1 {
   font-size: 20px;
   color: rgb(205, 166, 51);
   width: max-content;
+  padding: 0px 10px;
   height: 50px;
   box-shadow: inset 0 0 0 0 rgb(205, 166, 51);
   transition: ease-out 0.2s;
@@ -213,7 +215,7 @@ input#isRead {
   background-color: var(--yellow);
   border: none;
   font-size: 20px;
-  border-radius: 5px;
+  border-radius: var(--borderRadius);
   margin: auto;
   width: 50%;
   padding: 10px 10px;
@@ -259,7 +261,7 @@ input#isRead {
   color: white;
   background-color: rgba(95, 100, 102, 0.37);
   font-size: 20px;
-  border-radius: 15px;
+  border-radius: var(--borderRadius);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -267,22 +269,31 @@ input#isRead {
   font-size: 17px;
   position: relative;
 }
-
 .material-icons {
-  color: rgb(68, 57, 40);
-  background-color: rgb(168, 167, 164);
-  background-color: rgb(205, 166, 51);
+  color: hsl(45, 61%, 50%);
+  /* background-color: rgb(168, 167, 164);
+  background-color: rgb(205, 166, 51); */
   padding: 3px;
-
-  border-radius: 10px;
+  border-radius: var(--borderRadius);
   margin: 10px;
   font-size: 30px;
 }
-.material-icons:hover {
+.book .material-icons {
+  color: rgb(68, 57, 40);
+  background-color: rgb(168, 167, 164);
+  background-color: hsl(45, 61%, 50%);
+  padding: 3px;
+
+  border-radius: var(--borderRadius);
+  margin: 10px;
+  font-size: 30px;
+}
+.book .material-icons:hover {
   background-color: rgb(68, 57, 40);
   color: rgb(205, 166, 51);
   cursor: pointer;
 }
+
 #delBook,
 #editBook {
   font-size: 30px;
@@ -290,7 +301,7 @@ input#isRead {
 }
 #toggleRead {
   background-color: rgba(105, 105, 105, 0.46);
-  border-radius: 10px;
+  border-radius: var(--borderRadius);
   text-align: center;
   padding: 10px;
   font-size: 15px;
@@ -315,7 +326,7 @@ input#isRead {
   width: 10px;
   height: 10px;
   background-color: var(--yellow);
-  border-radius: 5px;
+  border-radius: var(--borderRadius);
   position: absolute;
   right: 10px;
   top: 10px;
@@ -326,11 +337,33 @@ input#isRead {
 }
 
 nav {
-  display: grid;
-  grid-template-columns: 1fr 100px 100px 100px;
+  padding: 0px 20px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  background-color: hsla(180, 2%, 8%, 0.119);
+}
+
+#newbook-btn {
+  margin-right: auto;
 }
 
 #book-form,
-#signup-form {
+#signup-form,
+#login-form,
+#account-icon {
   display: none;
+}
+
+.logged-out,
+.logged-in {
+  display: none;
+}
+
+#user-name {
+  font-size: 20px;
+  color: rgb(205, 166, 51);
+  width: max-content;
+  padding-right: 10px;
+  border-right: 1px solid hsl(45, 61%, 50%);
 }
