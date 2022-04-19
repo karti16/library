@@ -1,3 +1,20 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-app.js";
+
+import {
+  getAuth,
+  onAuthStateChanged,
+  createUserWithEmailAndPassword,
+  signOut,
+  signInWithEmailAndPassword,
+} from "https://www.gstatic.com/firebasejs/9.6.11/firebase-auth.js";
+
+import {
+  getFirestore,
+  getDocs,
+  collection,
+  addDoc,
+} from "https://www.gstatic.com/firebasejs/9.6.11/firebase-firestore.js";
+
 if (localStorage.key("book") == null) {
   localStorage.setItem("book", JSON.stringify([]));
 }
@@ -7,10 +24,6 @@ if (localStorage.key("book") == "book") {
 }
 //container
 const localLibContainer = document.querySelector("#local-container");
-
-//newbook form
-const bookForms = document.getElementById("book-form");
-bookForms.onsubmit = addBookToLibrary;
 
 //new book button
 const newBookBtn = document.querySelector("#newbook-btn");
@@ -40,6 +53,13 @@ const loginForm = document.querySelector("#login-form");
 
 //signup form declare
 const signupForm = document.querySelector("#signup-form");
+
+//newbook form
+const bookForms = document.getElementById("book-form");
+bookForms.addEventListener("submit", (e) => {
+  e.preventDefault();
+  addBookToLibrary();
+});
 
 //update book button
 const updateBookBtn = document.getElementById("updateBook");
@@ -72,6 +92,7 @@ const loggedInLinks = document.querySelectorAll(".logged-in");
 const userName = document.querySelector("#user-name");
 
 let currentBookEdit = null;
+let isUserSignedIn;
 
 function Book(title, author, pages, isRead) {
   this.title = title;
@@ -80,23 +101,27 @@ function Book(title, author, pages, isRead) {
   this.isRead = isRead;
 }
 
+//add book to library
 //Add New book to library
-function addBookToLibrary(e) {
-  e.preventDefault();
-  bookId = myLibrary.length;
-  myLibrary.push(
-    new Book(
-      document.getElementById("title").value,
-      document.getElementById("author").value,
-      document.getElementById("pages").value,
-      document.getElementById("isRead").checked ? "yes" : "no"
-    )
-  );
-  updateLocalStorage();
-  displayBook();
-  formDisplay("book-form", "none");
-  overlayOff();
-  bookForms.reset();
+async function addBookToLibrary() {
+  if (isUserSignedIn) {
+    addBookToCloudLibrary();
+  } else {
+    bookId = myLibrary.length;
+    myLibrary.push(
+      new Book(
+        document.getElementById("title").value,
+        document.getElementById("author").value,
+        document.getElementById("pages").value,
+        document.getElementById("isRead").checked ? "yes" : "no"
+      )
+    );
+    updateLocalStorage();
+    updateBookGrid(myLibrary);
+    formDisplay("book-form", "none");
+    overlayOff();
+    bookForms.reset();
+  }
 }
 
 //Event listener for buttons dynamically created inside the book cards
@@ -180,32 +205,32 @@ function updateBook(e) {
 }
 
 //display book at initial page load
-function displayBook() {
-  myLibrary = JSON.parse(localStorage.getItem("book"));
-  let localLibContainer = document.querySelector("#local-container");
-  localLibContainer.innerHTML += `
-    <div class="book" id="${bookId}">
-        <div id="readCircle" class="${
-          myLibrary[bookId].isRead == "yes" ? "" : "unread"
-        }"></div>
-        <div>Title : ${myLibrary[bookId].title}</div>
-        <div>Author : ${myLibrary[bookId].author}</div>
-        <div>Pages : ${myLibrary[bookId].pages}</div>
-        <div>
-          <p id="toggleRead">
-            ${
-              myLibrary[bookId].isRead == "yes"
-                ? "Mark as Unread"
-                : "Mark as Read"
-            }
-          </p>
-        </div>
-        <div id="delEditBtn">
-          <i id="delBook" class="material-icons">delete</i>
-          <i id="editBook" class="material-icons">edit</i>
-        </div>
-    </div>`;
-}
+// function displayBook() {
+//   myLibrary = JSON.parse(localStorage.getItem("book"));
+//   let localLibContainer = document.querySelector("#local-container");
+//   localLibContainer.innerHTML += `
+//     <div class="book" id="${bookId}">
+//         <div id="readCircle" class="${
+//           myLibrary[bookId].isRead == "yes" ? "" : "unread"
+//         }"></div>
+//         <div>Title : ${myLibrary[bookId].title}</div>
+//         <div>Author : ${myLibrary[bookId].author}</div>
+//         <div>Pages : ${myLibrary[bookId].pages}</div>
+//         <div>
+//           <p id="toggleRead">
+//             ${
+//               myLibrary[bookId].isRead == "yes"
+//                 ? "Mark as Unread"
+//                 : "Mark as Read"
+//             }
+//           </p>
+//         </div>
+//         <div id="delEditBtn">
+//           <i id="delBook" class="material-icons">delete</i>
+//           <i id="editBook" class="material-icons">edit</i>
+//         </div>
+//     </div>`;
+// }
 
 //Overlay behind the popups
 function overlayOn() {
@@ -263,3 +288,131 @@ function setupUi(user) {
     loggedOutLinks.forEach((item) => (item.style.display = "block"));
   }
 }
+
+//
+//
+//
+//
+
+const firebaseConfig = {
+  apiKey: "AIzaSyANW6lE6ifrHTDRlpm1Dm1X3huc3c5lxR0",
+  authDomain: "library-5500.firebaseapp.com",
+  projectId: "library-5500",
+  storageBucket: "library-5500.appspot.com",
+  messagingSenderId: "898712433264",
+  appId: "1:898712433264:web:b4368b807f72c5944b7ab5",
+  measurementId: "G-222P1BLNW0",
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth();
+const db = getFirestore(app);
+let dataArray = [];
+
+//Authentication
+//Listen for auth status changes
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    //getting data from firestore and storing in dataArray
+    const querySnapshot = await getDocs(collection(db, "books"));
+    dataArray = querySnapshot.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+    isUserSignedIn = true;
+    setupUi(user);
+    updateBookGrid(dataArray);
+  } else {
+    setupUi(user);
+    updateBookGrid(myLibrary);
+    isUserSignedIn = false;
+  }
+});
+
+//add book to cloud library
+export async function addBookToCloudLibrary() {
+  console.log("yes");
+  await addDoc(collection(db, "books"), {
+    title: document.getElementById("title").value,
+    author: document.getElementById("author").value,
+    pages: document.getElementById("pages").value,
+    isRead: document.getElementById("isRead").checked ? "yes" : "no",
+  });
+
+  formDisplay("book-form", "none");
+  overlayOff();
+  bookForms.reset();
+  updateBookGrid(dataArray);
+}
+
+//Signup user
+// const signupForm = document.querySelector("#signup-form");
+signupForm.addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  //get user info
+  const email = signupForm["signup-email"].value;
+  const password = signupForm["signup-password"].value;
+
+  //signup user
+  createUserWithEmailAndPassword(auth, email, password);
+
+  overlayOff();
+  formDisplay("signup-form", "none");
+});
+
+//Logout user
+const logoutBtn = document.querySelector("#logout-btn");
+logoutBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  auth.signOut();
+});
+
+//Login user
+// const loginForm = document.querySelector("#login-form");
+loginForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const email = loginForm["login-email"].value;
+  const password = loginForm["login-password"].value;
+
+  signInWithEmailAndPassword(auth, email, password);
+
+  overlayOff();
+  formDisplay("login-form", "none");
+});
+
+//##################################################
+//######################################################
+//######################################################
+
+// Firestore
+const cloudLibContainer = document.querySelector("#cloud-container");
+
+//Update book display after adding, deleting, editing the books
+
+// function updateCloudBookGrid(data) {
+//   cloudLibContainer.innerHTML = "";
+
+//   data.forEach((doc, index) => {
+//     const book = doc.data();
+//     cloudLibContainer.innerHTML += `
+//     <div class="book" id="${index}">
+//         <div id="readCircle" class="${
+//           book.read == "yes" ? "" : "unread"
+//         }"></div>
+//         <div>Title : ${book.title}</div>
+//         <div>Author : ${book.author}</div>
+//         <div>Pages : ${book.pages}</div>
+//         <div>
+//           <p id="toggleRead">
+//            ${book.read == "yes" ? "Mark as Unread" : "Mark as Read"}
+//           </p>
+//         </div>
+//         <div id="delEditBtn">
+//           <i id="delBook" class="material-icons">delete</i>
+//           <i id="editBook" class="material-icons">edit</i>
+//         </div>
+//     </div>`;
+//   });
+// }
