@@ -112,7 +112,16 @@ function Book(title, author, pages, isRead) {
 //Add New book to library
 async function addBookToLibrary() {
   if (isUserSignedIn) {
-    addBookToCloudLibrary();
+    await addDoc(collection(db, "users", userUid, "books"), {
+      title: document.getElementById("title").value,
+      author: document.getElementById("author").value,
+      pages: document.getElementById("pages").value,
+      isRead: document.getElementById("isRead").checked ? "yes" : "no",
+    });
+
+    formDisplay("book-form", "none");
+    overlayOff();
+    bookForms.reset();
   } else {
     // bookId = myLibrary.length;
     myLibrary.push(
@@ -338,6 +347,7 @@ const auth = getAuth();
 const db = getFirestore(app);
 let dataArray = [];
 let userUid;
+
 //Authentication
 //Listen for auth status changes
 onAuthStateChanged(auth, async (user) => {
@@ -363,20 +373,6 @@ onAuthStateChanged(auth, async (user) => {
     updateBookGrid(myLibrary);
   }
 });
-
-//add book to cloud library
-async function addBookToCloudLibrary() {
-  await addDoc(collection(db, "users", userUid, "books"), {
-    title: document.getElementById("title").value,
-    author: document.getElementById("author").value,
-    pages: document.getElementById("pages").value,
-    isRead: document.getElementById("isRead").checked ? "yes" : "no",
-  });
-
-  formDisplay("book-form", "none");
-  overlayOff();
-  bookForms.reset();
-}
 
 //Signup user
 // const signupForm = document.querySelector("#signup-form");
