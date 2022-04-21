@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;600&display=swap");
+
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
    License: none (public domain)
@@ -143,9 +145,17 @@ body {
   background-color: #3a3b3b;
 }
 h1 {
+  font-weight: 600;
   font-size: 7vh;
   color: rgb(205, 205, 205);
-  margin: 45px;
+  margin: 45px 45px 10px 45px;
+}
+
+h4 {
+  font-weight: 300;
+  font-size: 3vh;
+  color: rgb(205, 205, 205);
+  margin: 5px 45px 45px 45px;
 }
 .yellow-btn {
   background: none;
@@ -169,7 +179,7 @@ h1 {
   color: rgb(68, 57, 40);
 }
 .forms {
-  width: 400px;
+  width: min(calc(100%-2rem), 300px);
   margin: auto;
   padding: 30px;
   background-color: hsl(180, 2%, 8%);
@@ -257,6 +267,7 @@ input#isRead {
 }
 
 .book {
+  font-weight: 600;
   padding: 20px;
   color: white;
   background-color: rgba(95, 100, 102, 0.37);
@@ -277,6 +288,7 @@ input#isRead {
   border-radius: var(--borderRadius);
   margin: 10px;
   font-size: 30px;
+  user-select: none;
 }
 .book .material-icons {
   color: rgb(68, 57, 40);
@@ -289,8 +301,8 @@ input#isRead {
   font-size: 30px;
 }
 .book .material-icons:hover {
-  background-color: rgb(68, 57, 40);
-  color: rgb(205, 166, 51);
+  /* background-color: rgb(68, 57, 40);
+  color: rgb(205, 166, 51); */
   cursor: pointer;
 }
 
@@ -307,12 +319,13 @@ input#isRead {
   font-size: 15px;
   font-weight: bold;
   margin-top: 10px;
+  user-select: none;
 }
 #toggleRead:hover {
   cursor: pointer;
 
-  color: rgb(205, 166, 51);
-  background-color: rgb(43, 42, 41);
+  /* color: rgb(205, 166, 51);
+  background-color: rgb(43, 42, 41); */
 }
 #toggleRead:active {
   scale: 99%;
@@ -358,6 +371,7 @@ nav {
 .logged-out,
 .logged-in {
   display: none;
+  user-select: none;
 }
 
 #user-name {

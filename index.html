@@ -11,16 +11,15 @@
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap"
-      rel="stylesheet"
-    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <script defer type="module" src="scripts/script.js"></script>
     <title>Library</title>
   </head>
   <body>
     <div class="main-container">
       <h1>Library</h1>
+      <h4>Keep track of the books you read</h4>
       <nav>
         <button id="newbook-btn" class="yellow-btn">+ New Book</button>
         <i id="account-icon" class="material-icons logged-in">account_circle</i>
@@ -73,6 +72,7 @@
       />
       <button type="submit" id="signup-btn" class="form-btn">Sign Up</button>
       <button type="button" class="cancelbtn">Cancel</button>
+      <p class="error"></p>
     </form>
     <form id="login-form" class="forms">
       <input
@@ -91,6 +91,7 @@
       />
       <button type="submit" id="login-btn" class="form-btn">Login</button>
       <button type="button" class="cancelbtn">Cancel</button>
+      <p class="error"></p>
     </form>
   </body>
 </html>
